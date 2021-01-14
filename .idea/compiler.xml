@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="springboot-cache" />
+        <module name="springboot-task" />
+        <module name="springcloud-provider-ticket" />
+        <module name="springcloud-eureka-server" />
+        <module name="springboot-dubbo-provider-ticket" />
+        <module name="springboot-elastic" />
+        <module name="springboot-dubbo-consumer-user" />
+        <module name="springboot-security" />
+        <module name="springcloud-consumer-user" />
+        <module name="springboot-actuator" />
+        <module name="springboot-amqp" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="springboot-actuator" target="1.8" />
+      <module name="springboot-amqp" target="1.8" />
+      <module name="springboot-cache" target="1.8" />
+      <module name="springboot-dubbo-consumer-user" target="1.8" />
+      <module name="springboot-dubbo-provider-ticket" target="1.8" />
+      <module name="springboot-elastic" target="1.8" />
+      <module name="springboot-security" target="1.8" />
+      <module name="springboot-task" target="1.8" />
+      <module name="springcloud-consumer-user" target="1.8" />
+      <module name="springcloud-eureka-server" target="1.8" />
+      <module name="springcloud-provider-ticket" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="springboot-actuator" options="-parameters" />
+      <module name="springboot-amqp" options="-parameters" />
+      <module name="springboot-cache" options="-parameters" />
+      <module name="springboot-dubbo-consumer-user" options="-parameters" />
+      <module name="springboot-dubbo-provider-ticket" options="-parameters" />
+      <module name="springboot-elastic" options="-parameters" />
+      <module name="springboot-security" options="-parameters" />
+      <module name="springboot-task" options="-parameters" />
+      <module name="springcloud-consumer-user" options="-parameters" />
+      <module name="springcloud-eureka-server" options="-parameters" />
+      <module name="springcloud-provider-ticket" options="-parameters" />
+    </option>
+  </component>
+</project>

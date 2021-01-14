@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/springboot-amqp/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-elastic/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-task/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-cache/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-security/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-dubbo-consumer-user/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-dubbo-provider-ticket/pom.xml" />
+        <option value="$PROJECT_DIR$/springcloud-consumer-user/pom.xml" />
+        <option value="$PROJECT_DIR$/springcloud-eureka-server/pom.xml" />
+        <option value="$PROJECT_DIR$/springcloud-provider-ticket/pom.xml" />
+        <option value="$PROJECT_DIR$/springboot-actuator/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

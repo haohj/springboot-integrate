@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/springboot-actuator/springboot-actuator.iml" filepath="$PROJECT_DIR$/springboot-actuator/springboot-actuator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-amqp/springboot-amqp.iml" filepath="$PROJECT_DIR$/springboot-amqp/springboot-amqp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-cache/springboot-cache.iml" filepath="$PROJECT_DIR$/springboot-cache/springboot-cache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-dubbo-consumer-user/springboot-dubbo-consumer-user.iml" filepath="$PROJECT_DIR$/springboot-dubbo-consumer-user/springboot-dubbo-consumer-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-dubbo-provider-ticket/springboot-dubbo-provider-ticket.iml" filepath="$PROJECT_DIR$/springboot-dubbo-provider-ticket/springboot-dubbo-provider-ticket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-elastic/springboot-elastic.iml" filepath="$PROJECT_DIR$/springboot-elastic/springboot-elastic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-security/springboot-security.iml" filepath="$PROJECT_DIR$/springboot-security/springboot-security.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-task/springboot-task.iml" filepath="$PROJECT_DIR$/springboot-task/springboot-task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springcloud-consumer-user/springcloud-consumer-user.iml" filepath="$PROJECT_DIR$/springcloud-consumer-user/springcloud-consumer-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springcloud-eureka-server/springcloud-eureka-server.iml" filepath="$PROJECT_DIR$/springcloud-eureka-server/springcloud-eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springcloud-provider-ticket/springcloud-provider-ticket.iml" filepath="$PROJECT_DIR$/springcloud-provider-ticket/springcloud-provider-ticket.iml" />
+    </modules>
+  </component>
+</project>

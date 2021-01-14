@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="32ff222a-e06f-4027-ad9e-885c8527a0a0" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1n2TDk1fAae8ha9uUewMDIoNXgx" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="jdk.selected.JAVA_MODULE" value="1.8" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="File.Encoding" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.SpringbootElasticApplication">
+    <configuration name="SpringbootActuatorApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springboot-actuator" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hao.actuator.SpringbootActuatorApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootAmqpApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springboot-amqp" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hao.amqp.SpringbootAmqpApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootCacheApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springboot-cache" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hao.cache.SpringbootCacheApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootDubboConsumerUserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springboot-dubbo-consumer-user" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hao.consumer.SpringbootDubboConsumerUserApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootDubboProviderTicketApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springboot-dubbo-provider-ticket" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hao.provider.SpringbootDubboProviderTicketApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootElasticApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springboot-elastic" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hao.elastic.SpringbootElasticApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootSecurityApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springboot-security" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hao.security.SpringbootSecurityApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootTaskApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springboot-task" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hao.task.SpringbootTaskApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringcloudConsumerUserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springcloud-consumer-user" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hao.consumer.SpringcloudConsumerUserApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringcloudEurekaServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springcloud-eureka-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hao.eurekaserver.SpringcloudEurekaServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringcloudProviderTicketApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springcloud-provider-ticket" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hao.provider.SpringcloudProviderTicketApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="32ff222a-e06f-4027-ad9e-885c8527a0a0" name="Default Changelist" comment="" />
+      <created>1610587067755</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1610587067755</updated>
+      <workItem from="1610587070373" duration="1906000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+</project>

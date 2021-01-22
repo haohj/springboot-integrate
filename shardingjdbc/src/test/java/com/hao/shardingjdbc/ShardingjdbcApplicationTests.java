@@ -31,11 +31,34 @@ class ShardingjdbcApplicationTests {
     @Test
     public void findCourse() {
         QueryWrapper<Course> wrapper = new QueryWrapper<>();
-        wrapper.eq("cid", 1L);
+        wrapper.eq("cid", 559303733339488257L);
+        wrapper.eq("user_id", 100L);
         Course course = courseMapper.selectOne(wrapper);
         System.out.println(course);
     }
 
     //水平分库
+    //添加操作
+    @Test
+    public void addCourseDb() {
+        Course course = new Course();
+        course.setCname("javademo1");
+        //分库根据user_id
+        course.setUserId(111L);
+        course.setCstatus("Normal1");
+        courseMapper.insert(course);
+    }
+
+    //查询操作
+    @Test
+    public void findCourseDb() {
+        QueryWrapper<Course>  wrapper = new QueryWrapper<>();
+        //设置userid值
+        wrapper.eq("user_id",111L);
+        //设置cid值
+        wrapper.eq("cid",559305930726965249L);
+        Course course = courseMapper.selectOne(wrapper);
+        System.out.println(course);
+    }
 
 }

@@ -12,11 +12,30 @@ class ShardingjdbcApplicationTests {
     @Autowired
     private CourseMapper courseMapper;
 
+    //垂直分表
+
+    //垂直分库
+
+    //水平分表
     @Test
-    void contextLoads() {
+    public void addCourse() {
+        for (int i = 1; i <= 10; i++) {
+            Course course = new Course();
+            course.setCname("java" + i);
+            course.setUserId(100L);
+            course.setCstatus("Normal" + i);
+            courseMapper.insert(course);
+        }
+    }
+
+    @Test
+    public void findCourse() {
         QueryWrapper<Course> wrapper = new QueryWrapper<>();
         wrapper.eq("cid", 1L);
-        courseMapper.selectOne(wrapper);
+        Course course = courseMapper.selectOne(wrapper);
+        System.out.println(course);
     }
+
+    //水平分库
 
 }

@@ -3,6 +3,7 @@ package com.hao.shardingjdbc;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hao.shardingjdbc.entity.Course;
 import com.hao.shardingjdbc.mapper.CourseMapper;
+import com.hao.shardingjdbc.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ShardingjdbcApplicationTests {
     @Autowired
     private CourseMapper courseMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     //垂直分表
 
@@ -52,11 +55,11 @@ class ShardingjdbcApplicationTests {
     //查询操作
     @Test
     public void findCourseDb() {
-        QueryWrapper<Course>  wrapper = new QueryWrapper<>();
+        QueryWrapper<Course> wrapper = new QueryWrapper<>();
         //设置userid值
-        wrapper.eq("user_id",111L);
+        wrapper.eq("user_id", 111L);
         //设置cid值
-        wrapper.eq("cid",559305930726965249L);
+        wrapper.eq("cid", 559305930726965249L);
         Course course = courseMapper.selectOne(wrapper);
         System.out.println(course);
     }

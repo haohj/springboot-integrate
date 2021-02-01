@@ -13,3 +13,12 @@ spring:
         min-idle: 0
   cache:
     type: redis
+#\u52A8\u6001\u8BBE\u7F6E\u62E6\u622A\u5668
+permission-config:
+  perms:
+    - key: /logout
+      value: logout
+    - key: /user/**
+      value: jwt
+    - key: /**
+      value: anon

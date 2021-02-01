@@ -3,6 +3,7 @@ package com.hao.shiro.controller;
 import com.auth0.jwt.JWT;
 import com.hao.shiro.utils.JwtUtil;
 import com.hao.shiro.utils.RedisUtil;
+import com.hao.shiro.vo.JwtToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -44,35 +45,30 @@ public class LoginController {
         // 用户输入的账号和密码,,存到UsernamePasswordToken对象中..然后由shiro内部认证对比,
         // 认证执行者交由 com.battcn.config.AuthRealm 中 doGetAuthenticationInfo 处理
         // 当以上认证成功后会向下执行,认证失败会抛出异常
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
+        //生成token并设置过期时间为一分钟
+        String token = JwtUtil.sign(username, password);
+        //将token缓存到redis并设置过期时间为token过期时间的2倍
+        String tokenKey = "user:token" + token;
+        redisUtil.set(tokenKey, token);
+        redisUtil.expire(tokenKey, 60 * 2);
+        System.out.println("token:" + token);
+        JwtToken jwtToken = new JwtToken(token);
         try {
-            sub.login(usernamePasswordToken);
+            sub.login(jwtToken);
 
-            //生成token并设置过期时间为一分钟
-            String token = JwtUtil.sign(username, password);
-            System.out.println("token:" + token);
             String claim = JWT.decode(token).getClaim("account").asString();
             System.out.println(claim);
-
-            //将token缓存到redis并设置过期时间为token过期时间的2倍
-            String tokenKey = "user:token" + token;
-            redisUtil.set(tokenKey, token);
-            redisUtil.expire(tokenKey, 60 * 2);
         } catch (UnknownAccountException e) {
             log.error("对用户[{}]进行登录验证,验证未通过,用户不存在", username);
-            usernamePasswordToken.clear();
             return "UnknownAccountException";
         } catch (LockedAccountException lae) {
             log.error("对用户[{}]进行登录验证,验证未通过,账户已锁定", username);
-            usernamePasswordToken.clear();
             return "LockedAccountException";
         } catch (ExcessiveAttemptsException e) {
             log.error("对用户[{}]进行登录验证,验证未通过,错误次数过多", username);
-            usernamePasswordToken.clear();
             return "ExcessiveAttemptsException";
         } catch (AuthenticationException e) {
             log.error("对用户[{}]进行登录验证,验证未通过,堆栈轨迹如下", username, e);
-            usernamePasswordToken.clear();
             return "AuthenticationException";
         }
         return "success";

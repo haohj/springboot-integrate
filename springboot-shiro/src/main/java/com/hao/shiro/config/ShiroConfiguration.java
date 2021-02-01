@@ -1,6 +1,10 @@
 package com.hao.shiro.config;
 
+import com.hao.shiro.filter.TokenFilter;
+import com.hao.shiro.utils.RedisUtil;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -11,7 +15,10 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,22 +63,6 @@ public class ShiroConfiguration {
         return autoProxyCreator;
     }
 
-    @Bean(name = "authRealm")
-    public AuthRealm authRealm(EhCacheManager cacheManager) {
-        AuthRealm authRealm = new AuthRealm();
-        authRealm.setCacheManager(cacheManager);
-        return authRealm;
-    }
-
-    @Bean(name = "securityManager")
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(AuthRealm authRealm) {
-        DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
-        defaultWebSecurityManager.setRealm(authRealm);
-        // <!-- 用户授权/认证信息Cache, 采用EhCache 缓存 -->
-        defaultWebSecurityManager.setCacheManager(getEhCacheManager());
-        return defaultWebSecurityManager;
-    }
-
     @Bean
     public AuthorizationAttributeSourceAdvisor getAuthorizationAttributeSourceAdvisor(
             DefaultWebSecurityManager securityManager) {
@@ -80,26 +71,47 @@ public class ShiroConfiguration {
         return advisor;
     }
 
-    /**
-     * ShiroFilter<br/>
-     * 注意这里参数中的 StudentService 和 IScoreDao 只是一个例子，因为我们在这里可以用这样的方式获取到相关访问数据库的对象，
-     * 然后读取数据库相关配置，配置到 shiroFilterFactoryBean 的访问规则中。实际项目中，请使用自己的Service来处理业务逻辑。
-     *
-     * @param securityManager 安全管理器
-     * @return ShiroFilterFactoryBean
-     */
-    @Bean(name = "shiroFilter")
-    public ShiroFilterFactoryBean getShiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
-        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        // 必须设置 SecurityManager
-        shiroFilterFactoryBean.setSecurityManager(securityManager);
-        // 如果不设置默认会自动寻找Web工程根目录下的"/login"页面
-        shiroFilterFactoryBean.setLoginUrl("/login");
-        // 登录成功后要跳转的连接
-        shiroFilterFactoryBean.setSuccessUrl("/index");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/denied");
-        loadShiroFilterChain(shiroFilterFactoryBean);
-        return shiroFilterFactoryBean;
+    @Bean
+    public DefaultWebSecurityManager securityManager(AuthRealm shiroRealm) {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+
+        securityManager.setRealm(shiroRealm);
+
+        //关闭shiro自带的session
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        securityManager.setSubjectDAO(subjectDAO);
+
+        // <!-- 用户授权/认证信息Cache, 采用EhCache 缓存 -->
+        securityManager.setCacheManager(getEhCacheManager());
+        return securityManager;
+    }
+
+    @Bean
+    public ShiroFilterFactoryBean shiroFilter(DefaultWebSecurityManager securityManager, RedisUtil redisUtil) {
+        ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
+        shiroFilter.setSecurityManager(securityManager);
+
+        // 添加jwt过滤器
+        Map<String, Filter> filterMap = new HashMap<>();
+        filterMap.put("jwt", new TokenFilter(redisUtil));
+//        filterMap.put("logout", new SystemLogoutFilter(jedisUtils));
+        shiroFilter.setFilters(filterMap);
+
+        //动态配置拦截器注入
+        Map<String, String> filterRuleMap = new HashMap<>(16);
+        List<Map<String, String>> perms = this.getShiroFilterProperties().getPerms();
+        perms.forEach(perm -> filterRuleMap.put(perm.get("key"), perm.get("value")));
+
+        shiroFilter.setFilterChainDefinitionMap(filterRuleMap);
+        return shiroFilter;
+    }
+
+    @Bean
+    public ShiroFilterProperties getShiroFilterProperties() {
+        return new ShiroFilterProperties();
     }
 
     /**

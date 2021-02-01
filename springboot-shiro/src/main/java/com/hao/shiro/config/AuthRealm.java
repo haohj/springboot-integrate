@@ -1,9 +1,10 @@
 package com.hao.shiro.config;
 
-import com.hao.shiro.utils.JwtUtil;
 import com.hao.shiro.utils.RedisUtil;
+import com.hao.shiro.utils.TokenUtil;
 import com.hao.shiro.vo.JwtToken;
 import com.hao.shiro.vo.User;
+import io.jsonwebtoken.Claims;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -32,8 +33,8 @@ public class AuthRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        String account = JwtUtil.getUsername(principal.toString());
-        User user = DBCache.USERS_CACHE.get(account);
+        Claims claims = TokenUtil.getTokenBody(principal.toString());
+        User user = DBCache.USERS_CACHE.get(claims.getSubject());
         authorizationInfo.addRole(user.getRoleName());
         authorizationInfo.addStringPermission("find");
         return authorizationInfo;
@@ -53,17 +54,12 @@ public class AuthRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
         String token = (String) auth.getPrincipal();
         System.out.println("校验token：" + token);
-        String account = JwtUtil.getUsername(token);
 
-        if (account == null) {
-            throw new AuthenticationException("token invalid");
-        }
-
-        String tokenKey = "user:token" + token;
-        String cacheToken = String.valueOf(redisUtil.get(tokenKey));
-        User user = DBCache.USERS_CACHE.get(account);
-        if (!JwtUtil.verify(cacheToken, account, user.getPassword())) {
+        try {
+            TokenUtil.getTokenBody(token);
             return new SimpleAuthenticationInfo(token, token, "shiroRealm");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         throw new AuthenticationException("Token expired or incorrect.");
     }

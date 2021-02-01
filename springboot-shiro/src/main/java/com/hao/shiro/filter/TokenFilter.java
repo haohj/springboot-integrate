@@ -1,22 +1,29 @@
 package com.hao.shiro.filter;
 
 import com.hao.shiro.config.DBCache;
-import com.hao.shiro.utils.JwtUtil;
 import com.hao.shiro.utils.RedisUtil;
+import com.hao.shiro.utils.TokenUtil;
 import com.hao.shiro.vo.JwtToken;
+import com.hao.shiro.vo.Result;
 import com.hao.shiro.vo.User;
+import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * @author haohj
  */
 public class TokenFilter extends BasicHttpAuthenticationFilter {
+    private static Logger logger = LoggerFactory.getLogger(TokenFilter.class);
     private RedisUtil redisUtil;
 
     public TokenFilter(RedisUtil redisUtil) {
@@ -50,17 +57,15 @@ public class TokenFilter extends BasicHttpAuthenticationFilter {
         JwtToken token = new JwtToken(authorization);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         getSubject(request, response).login(token);
-
-        String username = JwtUtil.getUsername(authorization);
-        //根据用户名获取用户实体，在实际开发中从redis取
-        User user = DBCache.USERS_CACHE.get(username);
+        Claims claims = TokenUtil.getTokenBody(authorization);
+        User user = DBCache.USERS_CACHE.get(claims.getSubject());
         if (null == user) {
             throw new RuntimeException("illegal request，token is Invalid!");
         }
 
         //检查是否需要更换token，需要则重新颁发
         //校验token是否失效，自动续期
-        if (!refreshToken(authorization, username, user.getPassword())) {
+        if (!refreshToken(authorization, user.getUsername(), user.getPassword())) {
             throw new RuntimeException("illegal request，token is expired!");
         }
 
@@ -72,15 +77,83 @@ public class TokenFilter extends BasicHttpAuthenticationFilter {
         String tokenKey = "user:token" + token;
         String cacheToken = String.valueOf(redisUtil.get(tokenKey));
         if (StringUtils.isNotEmpty(cacheToken)) {
-            // 校验token有效性，注意需要校验的是缓存中的token
-            if (!JwtUtil.verify(cacheToken, username, password)) {
-                String newToken = JwtUtil.sign(username, password);
+            try {
+                TokenUtil.getTokenBody(token);
+                String newToken = TokenUtil.getToken(username, password, null);
+                System.out.println("token自动续期");
                 // 设置超时时间
                 redisUtil.set(tokenKey, newToken);
-                redisUtil.expire(tokenKey, 60 * 2);
+                redisUtil.expire(tokenKey, 6 * 60 * 2);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             return true;
         }
         return false;
+    }
+
+    /**
+     * 是否允许访问
+     *
+     * @param request
+     * @param response
+     * @param mappedValue
+     * @return
+     */
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        if (isLoginAttempt(request, response)) {
+            try {
+                this.executeLogin(request, response);
+                return true;
+            } catch (Exception e) {
+                String msg = e.getMessage();
+                this.response401(response, msg);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 重写 onAccessDenied 方法，避免父类中调用再次executeLogin
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
+//        logger.info("调用onAccessDenied拒绝访问");
+        this.sendChallenge(request, response);
+        return false;
+    }
+
+    /**
+     * 401非法请求
+     *
+     * @param resp
+     * @param msg
+     */
+    private void response401(ServletResponse resp, String msg) {
+        HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
+        httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        httpServletResponse.setContentType("application/json; charset=utf-8");
+        PrintWriter out = null;
+        try {
+            out = httpServletResponse.getWriter();
+
+            Result result = new Result();
+            result.setResult(false);
+            result.setCode(401);
+            result.setMessage(msg);
+            out.append(result.toString());
+        } catch (IOException e) {
+            logger.error("返回Response信息出现IOException异常:" + e.getMessage());
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
     }
 }

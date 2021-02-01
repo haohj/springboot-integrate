@@ -79,12 +79,17 @@ public class TokenFilter extends BasicHttpAuthenticationFilter {
         if (StringUtils.isNotEmpty(cacheToken)) {
             try {
                 TokenUtil.getTokenBody(token);
-                String newToken = TokenUtil.getToken(username, password, null);
-                System.out.println("token自动续期");
-                // 设置超时时间
-                redisUtil.set(tokenKey, newToken);
-                redisUtil.expire(tokenKey, 6 * 60 * 2);
             } catch (Exception e) {
+                try {
+                    TokenUtil.getTokenBody(cacheToken);
+                    String newToken = TokenUtil.getToken(username, password, null);
+                    System.out.println("token自动续期");
+                    // 设置超时时间
+                    redisUtil.set(tokenKey, newToken);
+                    redisUtil.expire(tokenKey, 6 * 60 * 2);
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
                 e.printStackTrace();
             }
             return true;

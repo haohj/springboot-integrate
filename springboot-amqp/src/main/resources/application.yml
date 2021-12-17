@@ -1,5 +1,9 @@
 spring:
   rabbitmq:
-    host: 192.169.140.128
+    host: 127.0.0.1
     username: guest
     password: guest
+    virtual-host: /
+    listener:
+      simple:
+        acknowledge-mode: manual

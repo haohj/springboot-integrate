@@ -4,7 +4,9 @@ spring:
     username: root
     password: mysql
   redis:
-    host: 192.168.140.128
+#    host: 192.168.140.128
+    host: 127.0.0.1
+    password: jtzsw_redis
 mybatis:
   configuration:
     map-underscore-to-camel-case: true  #\u5F00\u542F\u9A7C\u5CF0\u547D\u540D

@@ -2,11 +2,23 @@ package com.hao.elastic.entity;
 
 import io.searchbox.annotations.JestId;
 
+import java.util.Date;
+
 public class Book {
     @JestId
     private String id;
+
     private String name;
     private String content;
+    private Date createDate;
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
     public String getId() {
         return id;

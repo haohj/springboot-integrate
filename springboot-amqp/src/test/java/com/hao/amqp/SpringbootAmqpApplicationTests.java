@@ -117,4 +117,10 @@ class SpringbootAmqpApplicationTests {
 		binding = new Binding("haoxue.news", Binding.DestinationType.QUEUE, "exchange.topic", "*.news", null);
 		amqpAdmin.declareBinding(binding);
 	}
+
+	@Test
+	public void getQueue(){
+		QueueInformation queueInfo = amqpAdmin.getQueueInfo("haohj.news");
+		System.out.println(queueInfo.getName());
+	}
 }

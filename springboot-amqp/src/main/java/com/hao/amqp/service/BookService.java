@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookService {
 
-    @RabbitListener(queues = "haohj.news")
+//    @RabbitListener(queues = "haohj.news")
     public void receive(Book book) {
         System.out.println("收到消息：" + book);
     }
 
-    @RabbitListener(queues = "haohj")
+//    @RabbitListener(queues = "haohj")
     public void receive02(String message, Channel channel, Message msg) {
         try{
             System.out.println("收到haohj消息  : " + message);

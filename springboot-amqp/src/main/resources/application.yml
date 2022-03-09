@@ -1,9 +1,21 @@
 spring:
   rabbitmq:
-    host: 127.0.0.1
-    username: guest
-    password: guest
+    host: 106.52.215.167
+    #    username: guest
+    #    password: guest
     virtual-host: /
     listener:
       simple:
         acknowledge-mode: manual
+    ssl:
+      #启用rabbitmq客户端SSL连接
+      enabled: true
+      #客户端PKCS12证书及密码
+      key-store: classpath:ssl/rabbitmq-client.keycert.p12
+      key-store-password: 654321
+      #公钥证书及类型
+      trust-store: classpath:ssl/rabbitmqTrustStore
+      trust-store-type: JKS
+      #不校验主机名，默认开启会导致连接失败
+      verify-hostname: false
+    port: 5671

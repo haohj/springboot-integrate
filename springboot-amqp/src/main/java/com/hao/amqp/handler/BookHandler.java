@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component
+//@Component
 public class BookHandler {
     private static final Logger log = LoggerFactory.getLogger(BookHandler.class);
 
